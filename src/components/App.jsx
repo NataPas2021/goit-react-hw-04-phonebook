@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-//import {Component} from 'react';
 import css from './App.module.css';
 import Form from './Form/Form';
 import ContactsList from './Contacts/ContactsList';
@@ -26,28 +25,33 @@ const LS_KEY = "contacts";
     
   );
 
-  const addContact = ({name, number}) => {
-        const existName = contacts
-        .map(contact => contact.name.toUpperCase())
-        .includes(name.toUpperCase())
+  const isDublicate = ({name, number}) => {
+    const normilizedName = name.toLowerCase();
+    const normalNumber = number;
     
-        if(existName) {
-          alert(`${name} is elready in contacts!`)
+    const dublicate = contacts.find(contact => {
+      const normilizedCurrentName = contact.name.toLowerCase();
+      const currentNumber = contact.number;
+      return (normilizedCurrentName === normilizedName && currentNumber === normalNumber);
+    } 
+      )
+      return Boolean(dublicate);
+  }
+
+  const addContact = (data) => {
+      if(isDublicate(data)) {
+          alert(`${data.name} is elready in contacts!`)
           return
         } else {
-        const newContact= {
-          id: nanoid(),
-          name,
-          number
-        }
-        
-        setContacts(() => ({
-         newContact, ...contacts,
-        }
-        
-        ))
-      }
-      };
+          setContacts(prevContacts => {
+            const newContact = {
+              id: nanoid(),
+              ...data,
+            };
+            return [...prevContacts, newContact];
+          }) 
+      } 
+  };
     
       const changeFilter = e => { setFilter(e.currentTarget.value);}
       
@@ -82,4 +86,3 @@ const LS_KEY = "contacts";
 };
 
 export default App;
-
