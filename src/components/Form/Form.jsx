@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import {useState, useMemo } from 'react';
 import {nanoid} from 'nanoid';
 import css from './Form.module.css';
 import PropTypes from 'prop-types';
@@ -11,8 +11,8 @@ function Form ({onSubmit}) {
 
   const {name, number} = state;
   
-  const inputNameId = nanoid();
-  const inputNumberId = nanoid();
+  const inputNameId = useMemo(() => nanoid(), []);
+  const inputNumberId = useMemo(() => nanoid(), []);
       
   const  handleChange = e => {
         console.log(e.currentTarget)
