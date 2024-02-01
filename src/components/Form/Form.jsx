@@ -3,11 +3,13 @@ import {nanoid} from 'nanoid';
 import css from './Form.module.css';
 import PropTypes from 'prop-types';
 
+const INITIAL_STATE = {
+  name: "",
+  number: "",
+};
+
 function Form ({onSubmit}) {
-  const [state, setState] = useState({
-    name: '',
-    number: ''
-  });
+  const [state, setState] = useState({...INITIAL_STATE});
 
   const {name, number} = state;
   
@@ -15,7 +17,6 @@ function Form ({onSubmit}) {
   const inputNumberId = useMemo(() => nanoid(), []);
       
   const  handleChange = e => {
-        console.log(e.currentTarget)
         const {name, value} = e.currentTarget;
         setState({
           ...state,
@@ -30,8 +31,9 @@ function Form ({onSubmit}) {
       };
   
   const  reset = () => {
-        setState({...state})
+        setState({...INITIAL_STATE});
       }
+
   return (
          <form onSubmit={handleSubmit}>
             <label htmlFor={inputNameId} className={css.label}>Name</label>
